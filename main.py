@@ -2,6 +2,9 @@ import ipaddress
 import json
 import re
 import os
+from dotenv import load_dotenv
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from git import Repo
 from git import Actor
 from selenium import webdriver
@@ -10,6 +13,15 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
+from smtplib import SMTP
+
+load_dotenv()
+
+smtp_server = os.environ.get('smtp_server')
+smtp_server_user = os.environ.get('smtp_server_user')
+smtp_server_password = os.environ.get('smtp_server_password')
+sender_email = os.environ.get('sender_email')
+status_receiver_email = os.environ.get('status_receiver_email')
 
 json_file_name = 'jamf_outbound_traffic.json'
 jamf_ip_webpage = 'https://learn.jamf.com/bundle/technical-articles/page/Permitting_InboundOutbound_Traffic_with_Jamf_Cloud.html'
@@ -50,6 +62,21 @@ def extract_data_by_region(data):
     return result
 
 
+def send_changes_detected_email(changes):
+    status_subject = '[Jamf IP Scraper] IP/Domain Changes detected'
+    message = f'The following changes have been found on Jamf\'s Outbound IP/Domain page: \n\n{changes}'
+
+    body = MIMEText(message, 'plain')
+    status_msg = MIMEMultipart('alternative')
+    status_msg['To'] = status_receiver_email
+    status_msg['From'] = sender_email
+    status_msg['Subject'] = status_subject
+    status_msg.attach(body)
+
+    with SMTP(smtp_server) as smtp:
+        smtp.sendmail(sender_email, status_receiver_email, status_msg.as_string())
+
+
 if __name__ == '__main__':
     ip_addresses = {}
 
@@ -82,6 +109,7 @@ if __name__ == '__main__':
         repo.index.add([json_file_name])
 
         if repo.index.diff(repo.head.commit):
+            send_changes_detected_email(repo.git.diff(repo.head.commit.tree))
             repo.index.commit('Committing Jamf outbound changes', author=author, committer=author)
             repo.remote().push().raise_if_error()
     except Exception as e:
