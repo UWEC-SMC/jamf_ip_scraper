@@ -78,6 +78,7 @@ def send_changes_detected_email(changes):
 
 
 if __name__ == '__main__':
+    print('Starting Jamf IP Scraper')
     ip_addresses = {}
 
     try:
@@ -109,10 +110,14 @@ if __name__ == '__main__':
         repo.index.add([json_file_name])
 
         if repo.index.diff(repo.head.commit):
+            print('Changes detected! Committing changes and pushing to remote')
             send_changes_detected_email(repo.git.diff(repo.head.commit.tree))
             repo.index.commit('Committing Jamf outbound changes', author=author, committer=author)
             repo.remote().push().raise_if_error()
+        else:
+            print('No changes detected')
     except Exception as e:
         print(e)
     finally:
         driver.close()
+        print('Jamf IP Scraper exiting...')
