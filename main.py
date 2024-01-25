@@ -1,3 +1,4 @@
+import datetime
 import ipaddress
 import json
 import re
@@ -29,6 +30,7 @@ jamf_ip_webpage = 'https://learn.jamf.com/bundle/technical-articles/page/Permitt
 region_pattern = re.compile(r'U\.S\..*|\w*-\w*-\d*')
 ip_pattern = re.compile(r'(?:\d{1,3}\.){3}\d{1,3}')
 domain_pattern = re.compile(r'\b(?:[\w-]+\.){2,}[\w]+')
+datetime_format = '%m/%d/%Y %I:%M:%S %p'
 
 driver_options = Options()
 driver_options.add_argument('-headless')
@@ -42,7 +44,7 @@ def extract_data_by_region(data):
     result = {}
     current_region = None
 
-    # Iterate through array of values. It found to be a region, start a new nested dict of its associated IPs/Domains.
+    # Iterate through array of values. If found to be a region, start a new nested dict of its associated IPs/Domains.
     # Else, append to list of current region's IPs/Domains.
     for item in data:
         if region_pattern.match(item):
@@ -76,12 +78,18 @@ def send_changes_detected_email(changes):
     with SMTP(smtp_server) as smtp:
         smtp.sendmail(sender_email, status_receiver_email, status_msg.as_string())
 
+def print_message(message):
+    # Convenience method for easily outputting messages to the console in a consistent format
+    print(f'{datetime.datetime.now().strftime(datetime_format)}: {message}', flush=True)
+
 
 if __name__ == '__main__':
+    print_message('Starting Jamf IP Scraper')
     ip_addresses = {}
 
     try:
         # Load the page
+        print_message('Loading Jamf IP page')
         driver.get(jamf_ip_webpage)
 
         # Wait for IP tables to render
@@ -90,6 +98,7 @@ if __name__ == '__main__':
         )
 
         # Get all sections and check if they contain IP addresses
+        print_message('Extracting IP addresses')
         sections = driver.find_elements(By.CLASS_NAME, 'section')
         for section in sections:
             try:
@@ -102,6 +111,7 @@ if __name__ == '__main__':
                 continue
 
         # Update JSON file
+        print_message('Updating JSON file')
         with open(json_file_name, 'w') as file:
             file.write(json.dumps(ip_addresses, indent=2))
 
@@ -109,10 +119,14 @@ if __name__ == '__main__':
         repo.index.add([json_file_name])
 
         if repo.index.diff(repo.head.commit):
+            print_message('Changes detected, committing and pushing')
             send_changes_detected_email(repo.git.diff(repo.head.commit.tree))
             repo.index.commit('Committing Jamf outbound changes', author=author, committer=author)
             repo.remote().push().raise_if_error()
+        else:
+            print_message('No changes detected')
     except Exception as e:
-        print(e)
+        print_message(e)
     finally:
         driver.close()
+        print_message('Jamf IP Scraper finished, exiting')
