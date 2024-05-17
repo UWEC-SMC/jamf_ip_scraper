@@ -152,7 +152,7 @@
       "3.125.234.3"
     ]
   },
-  "Outbound Traffic to the Jamf Cloud Distribution Service": {
+  "Inbound Traffic to the Jamf Cloud Distribution Service": {
     "U.S. (All Regions)": [
       "d3vkdkwvc3vitl.cloudfront.net",
       "jcds.use1.inf.jamf.one",
