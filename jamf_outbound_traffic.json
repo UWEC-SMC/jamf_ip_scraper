@@ -157,21 +157,26 @@
       "d3vkdkwvc3vitl.cloudfront.net",
       "jcds.use1.inf.jamf.one"
     ],
+    "us-east-1-prod-jcds2-file-objects.s3.amazonaws.com": [],
     "eu-central-1": [
       "d1590uekmzbnci.cloudfront.net",
       "jcds.euc1.inf.jamf.one"
     ],
+    "eu-central-1-prod-jcds2-file-objects.s3.amazonaws.com": [],
     "eu-west-2": [
       "d2zt4v5bo59xg8.cloudfront.net",
       "jcds.euw2.inf.jamf.one"
     ],
+    "eu-west-2-prod-jcds2-file-objects.s3.amazonaws.com": [],
     "ap-southeast-2": [
       "d3zqyxnkgrm1p.cloudfront.net",
       "jcds.apse2.inf.jamf.one"
     ],
+    "ap-southeast2-prod-jcds2-file-objects.s3.amazonaws.com": [],
     "ap-northeast-1": [
       "d1keoc0lihzxgs.cloudfront.net",
       "jcds.apne1.inf.jamf.one"
-    ]
+    ],
+    "ap-northeast-1-prod-jcds2-file-objects.s3.amazonaws.com": []
   }
 }
