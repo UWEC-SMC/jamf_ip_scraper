@@ -27,7 +27,7 @@ status_receiver_email = os.environ.get('status_receiver_email')
 json_file_name = 'jamf_outbound_traffic.json'
 jamf_ip_webpage = 'https://learn.jamf.com/bundle/technical-articles/page/Permitting_InboundOutbound_Traffic_with_Jamf_Cloud.html'
 
-region_pattern = re.compile(r'U\.S\..*|\w*-\w*-\d*')
+region_pattern = re.compile(r'U\.S\..*|\w*-\w*(-\d*)?$')
 ip_pattern = re.compile(r'(?:\d{1,3}\.){3}\d{1,3}')
 domain_pattern = re.compile(r'\b(?:[\w-]+\.){2,}[\w]+')
 datetime_format = '%m/%d/%Y %I:%M:%S %p'
@@ -37,7 +37,7 @@ driver_options.add_argument('-headless')
 driver = webdriver.Firefox(driver_options)
 
 repo = Repo(os.path.dirname(os.path.realpath(__file__)))
-author = Actor('Corey Oliphant', 'coreysather@gmail.com')
+author = Actor('Corey Oliphant', 'corey.oliphant@icloud.com')
 
 
 def extract_data_by_region(data):
