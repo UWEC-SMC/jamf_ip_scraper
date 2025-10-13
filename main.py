@@ -19,6 +19,7 @@ from smtplib import SMTP
 load_dotenv()
 
 smtp_server = os.environ.get('smtp_server')
+smtp_port = int(os.environ.get('smtp_port'))
 smtp_server_user = os.environ.get('smtp_server_user')
 smtp_server_password = os.environ.get('smtp_server_password')
 sender_email = os.environ.get('sender_email')
@@ -75,7 +76,7 @@ def send_changes_detected_email(changes):
     status_msg['Subject'] = status_subject
     status_msg.attach(body)
 
-    with SMTP(smtp_server) as smtp:
+    with SMTP(smtp_server, port=smtp_port) as smtp:
         smtp.sendmail(sender_email, status_receiver_email, status_msg.as_string())
 
 def print_message(message):
