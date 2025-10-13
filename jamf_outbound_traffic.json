@@ -98,10 +98,8 @@
     "ap-northeast-1": [
       "3.113.55.36",
       "18.182.140.211",
-      "20.218.173.224",
       "35.76.238.164",
       "43.207.12.214",
-      "52.173.220.64",
       "52.192.248.207",
       "52.194.126.113",
       "54.65.212.193",
@@ -113,6 +111,18 @@
       "140.150.96.6",
       "140.150.96.7",
       "140.150.96.8"
+    ],
+    "azure-centralus": [
+      "52.165.253.80",
+      "52.165.253.84",
+      "52.165.253.89",
+      "52.165.253.91"
+    ],
+    "azure-germanywestcentral": [
+      "20.79.34.226",
+      "20.79.34.228",
+      "20.79.34.231",
+      "20.79.34.238"
     ]
   },
   "Outbound Traffic from Jamf Cloud Services (Including Title Editor)": {
@@ -152,28 +162,33 @@
   "Inbound Traffic to the Jamf Cloud Distribution Service": {
     "U.S. (All Regions)": [
       "d3vkdkwvc3vitl.cloudfront.net",
-      "jcds.use1.inf.jamf.one"
+      "jcds.use1.inf.jamf.one",
+      "us-east-1-prod-jcds2-file-objects.s3.amazonaws.com",
+      "us-east-1-prod-jcds2-file-objects.s3.us-east-1.amazonaws.com"
     ],
-    "us-east-1-prod-jcds2-file-objects.s3.amazonaws.com": [],
     "eu-central-1": [
       "d1590uekmzbnci.cloudfront.net",
+      "eu-central-1-prod-jcds2-file-objects.s3.amazonaws.com",
+      "eu-central-1-prod-jcds2-file-objects.s3.eu-central-1.amazonaws.com",
       "jcds.euc1.inf.jamf.one"
     ],
-    "eu-central-1-prod-jcds2-file-objects.s3.amazonaws.com": [],
     "eu-west-2": [
       "d2zt4v5bo59xg8.cloudfront.net",
+      "eu-west-2-prod-jcds2-file-objects.s3.amazonaws.com",
+      "eu-west-2-prod-jcds2-file-objects.s3.eu-west-2.amazonaws.com",
       "jcds.euw2.inf.jamf.one"
     ],
-    "eu-west-2-prod-jcds2-file-objects.s3.amazonaws.com": [],
     "ap-southeast-2": [
+      "ap-southeast-2-prod-jcds2-file-objects.s3.amazonaws.com",
+      "ap-southeast-2-prod-jcds2-file-objects.s3.ap-southeast-2.amazonaws.com",
       "d3zqyxnkgrm1p.cloudfront.net",
       "jcds.apse2.inf.jamf.one"
     ],
-    "ap-southeast2-prod-jcds2-file-objects.s3.amazonaws.com": [],
     "ap-northeast-1": [
+      "ap-northeast-1-prod-jcds2-file-objects.s3.amazonaws.com",
+      "ap-northeast-1-prod-jcds2-file-objects.s3.ap-northeast-1.amazonaws.com",
       "d1keoc0lihzxgs.cloudfront.net",
       "jcds.apne1.inf.jamf.one"
-    ],
-    "ap-northeast-1-prod-jcds2-file-objects.s3.amazonaws.com": []
+    ]
   }
 }
